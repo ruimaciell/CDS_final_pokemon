@@ -4,130 +4,126 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import statistics
 
-
-import pandas as pd
-
 # Loading the datasets
 pokemon_data = pd.read_csv('raw_data/pokemon.csv')
 combats_data = pd.read_csv('raw_data/combats.csv')
+import pandas as pd
 
-# Counting the number of victories for each Pokémon
-victory_counts = combats_data['Winner'].value_counts()
+class PokemonBattleProcessor:
+    def __init__(self, pokemon_data, combats_data):
+        self.pokemon_data = pokemon_data
+        self.combats_data = combats_data
 
-# Counting the total number of battles for each Pokémon
-battle_counts_first = combats_data['First_pokemon'].value_counts()
-battle_counts_second = combats_data['Second_pokemon'].value_counts()
-total_battles = battle_counts_first.add(battle_counts_second, fill_value=0)
+    def process_battle_data(self):
+        # Counting victories and battles
+        victory_counts = self.combats_data['Winner'].value_counts()
+        total_battles = (self.combats_data['First_pokemon'].value_counts() +
+                         self.combats_data['Second_pokemon'].value_counts())
 
-# Calculating the victory rate for each Pokémon
-victory_rate = victory_counts / total_battles
+        # Calculating victory rate
+        victory_rate = victory_counts / total_battles
+        victory_rate_df = pd.DataFrame({'#': victory_rate.index, 'Victory_Rate': victory_rate.values})
 
-# Creating a DataFrame for the victory rates
-victory_rate_df = pd.DataFrame({'#': victory_rate.index, 'Victory_Rate': victory_rate.values})
+        # Merging data
+        self.pokemon_data = pd.merge(self.pokemon_data, victory_rate_df, on='#', how='left')
+        self.pokemon_data['Total_Battles'] = self.pokemon_data['#'].map(total_battles)
+        self.pokemon_data['Victory_Counts'] = self.pokemon_data['#'].map(victory_counts)
+        self.pokemon_data.fillna({'Victory_Rate': 0, 'Total_Battles': 0, 'Victory_Counts': 0}, inplace=True)
 
-# Merging the victory rates with the Pokémon details
-pokemon_victory_data = pd.merge(pokemon_data, victory_rate_df, on='#', how='left')
+    def get_processed_data(self):
+        return self.pokemon_data
 
-# Adding Total Battles and Victory Counts to the DataFrame
-pokemon_victory_data['Total_Battles'] = pokemon_victory_data['#'].map(total_battles)
-pokemon_victory_data['Victory_Counts'] = pokemon_victory_data['#'].map(victory_counts)
+    def display_data(self, rows=5):
+        print(self.pokemon_data.head(rows))
 
-# Filling NaN values in Victory_Rate, Total_Battles, and Victory_Counts with 0 for Pokémon that have not battled
-pokemon_victory_data['Victory_Rate'] = pokemon_victory_data['Victory_Rate'].fillna(0)
-pokemon_victory_data['Total_Battles'] = pokemon_victory_data['Total_Battles'].fillna(0)
-pokemon_victory_data['Victory_Counts'] = pokemon_victory_data['Victory_Counts'].fillna(0)
+# Usage example, assuming pokemon_data and combats_data are your DataFrames
+processor = PokemonBattleProcessor(pokemon_data, combats_data)
+processor.process_battle_data()
+df = processor.get_processed_data()
+processor.display_data()
 
-# Displaying the first few rows of the merged data (optional)
-print(pokemon_victory_data.head())
 
 ## IT WORKKKKKKKKS. Now lets do basic things to see the state of the data
+class DataProcessor:
+    def __init__(self, df):
+        self.df = df
+        pd.set_option('display.float_format', lambda x: '{:.1f}'.format(x) if x % 1 else '{:.0f}'.format(x))
 
-df=pokemon_victory_data
+class NumericDataAnalyzer(DataProcessor):
+    def calculate_statistics(self):
+        numeric_columns = self.df.select_dtypes(include=['int', 'float']).columns
+        stats_dict = {'Variable': numeric_columns, 'Mean': [], 'Mode': [], 'Median': [], 'Standard Deviation': [], 'Minimum': [], 'Maximum': [], 'Count': [], 'IQR': [], 'Skewness': [], 'Range': []}
+        for column in numeric_columns:
+            stats_dict['Mean'].append(self.df[column].mean())
+            stats_dict['Mode'].append(statistics.mode(self.df[column].dropna()))
+            stats_dict['Median'].append(self.df[column].median())
+            stats_dict['Standard Deviation'].append(self.df[column].std())
+            stats_dict['Minimum'].append(self.df[column].min())
+            stats_dict['Maximum'].append(self.df[column].max())
+            stats_dict['Count'].append(self.df[column].count())
+            stats_dict['IQR'].append(np.percentile(self.df[column].dropna(), 75) - np.percentile(self.df[column].dropna(), 25))
+            stats_dict['Skewness'].append(self.df[column].skew())
+            stats_dict['Range'].append(stats_dict['Maximum'][-1] - stats_dict['Minimum'][-1])
+        return pd.DataFrame(stats_dict)
 
-# Set display option to avoid scientific notation and limit decimals
-pd.set_option('display.float_format', lambda x: '{:.1f}'.format(x) if x % 1 else '{:.0f}'.format(x))
+class CategoricalDataAnalyzer(DataProcessor):
+    def calculate_statistics(self):
+        categorical_columns = self.df.select_dtypes(include=['object']).columns
+        stats_dict = {'Variable': categorical_columns, 'Number of Unique Values': [], 'Top 5 Most Frequent Values': []}
+        for column in categorical_columns:
+            stats_dict['Number of Unique Values'].append(self.df[column].nunique())
+            stats_dict['Top 5 Most Frequent Values'].append(self.df[column].value_counts().index[:5].tolist())
+        return pd.DataFrame(stats_dict)
 
-def calculate_column_statistics_for_numeric_variables(df):
-    # Filter columns with numeric (int or float) data types
-    numeric_columns = df.select_dtypes(include=['int', 'float']).columns
-
-    # Get all column names
-    all_columns = df.columns
-    total_columns = len(all_columns)
-
-    num_numeric_columns = len(numeric_columns)
-
-    # Find columns with categorical values
-    categorical_columns = [col for col in all_columns if df[col].dtype == 'object']
-
-    print(f"Total number of columns: {total_columns}")
-    print(f"Number of numeric columns (int or float): {num_numeric_columns}")
-
-    # Create a dictionary to store statistics
-    stats_dict = {
-        'Variable': numeric_columns,
-        'Mean': [],
-        'Mode': [],
-        'Median': [],
-        'Standard Deviation': [],
-        'Minimum': [],
-        'Maximum': [],
-        'Count': [],
-        'IQR': [],
-        'Skewness': [],
-        'Range': []
-    }
-
-    for column in numeric_columns:
-        mean = df[column].mean()
-        mode = statistics.mode(df[column].dropna())  # Handle potential multiple modes
-        median = df[column].median()
-        std_dev = df[column].std()
-        min_val = df[column].min()
-        max_val = df[column].max()
-        count = df[column].count()
-        iqr = np.percentile(df[column].dropna(), 75) - np.percentile(df[column].dropna(), 25)
-        skew = df[column].skew()
-        column_range = max_val - min_val
-
-        stats_dict['Mean'].append(mean)
-        stats_dict['Mode'].append(mode)
-        stats_dict['Median'].append(median)
-        stats_dict['Standard Deviation'].append(std_dev)
-        stats_dict['Minimum'].append(min_val)
-        stats_dict['Maximum'].append(max_val)
-        stats_dict['Count'].append(count)
-        stats_dict['IQR'].append(iqr)
-        stats_dict['Skewness'].append(skew)
-        stats_dict['Range'].append(column_range)
-
-    # Create a DataFrame from the dictionary
-    stats_df = pd.DataFrame(stats_dict)
-
-    return stats_df
+class MissingDataVisualizer(DataProcessor):
+    def visualize_missing_data(self):
+        missing_percentages_df = (self.df.isnull().mean() * 100).round(2).reset_index()
+        missing_percentages_df.columns = ['Column Name', 'Percentage Missing']
+        plt.figure(figsize=(20, 9))
+        plt.bar(missing_percentages_df['Column Name'], missing_percentages_df['Percentage Missing'], color='skyblue')
+        plt.xlabel('Column Name')
+        plt.ylabel('Percentage Missing')
+        plt.title('Percentage of Missing Values by Column')
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout(pad=0.0001)
+        plt.show()
 
 
-calculate_column_statistics_for_numeric_variables(df)
+numeric_analyzer = NumericDataAnalyzer(df)
+numeric_stats = numeric_analyzer.calculate_statistics()
 
-numeric_columns = df.select_dtypes(include=['int', 'float']).columns
-numeric_columns
+categorical_analyzer = CategoricalDataAnalyzer(df)
+categorical_stats = categorical_analyzer.calculate_statistics()
 
-# List of variables to plot
-variables = numeric_columns
+missing_data_visualizer = MissingDataVisualizer(df)
+missing_data_visualizer.visualize_missing_data()
 
-# Setting up the subplots
-fig, axes = plt.subplots(15, 3, figsize=(50, 250))
+"""Pokemon Type Encoder"""
+class PokemonTypeEncoder:
+    def __init__(self, df):
+        self.pokemon_data = df
+        self.type_dummies = None  # Added to store type dummies
 
-# Creating histograms for each variable
-for ax, var in zip(axes.flatten(), variables):
-    sns.histplot(df[var], ax=ax, color="skyblue", edgecolor='black', kde=True)
-    ax.set_title(f'Distribution of {var}', fontsize = 30)
-    ax.set_xlabel(var)
-    ax.set_ylabel('Frequency')
+    def one_hot_encode_types(self):
+        self.type_dummies = pd.get_dummies(self.pokemon_data[['Type 1', 'Type 2']].stack()).groupby(level=0).max()
+        self.pokemon_data = pd.concat([self.pokemon_data, self.type_dummies], axis=1)
 
-# Adjusting the layout
-plt.tight_layout()
-plt.show()
+    def verify_encoding(self):
+        self.pokemon_data['Calculated_Type_Count'] = self.pokemon_data[['Type 1', 'Type 2']].notnull().sum(axis=1)
+        self.pokemon_data['Sum_One_Hot_Types'] = self.pokemon_data[self.type_dummies.columns].sum(axis=1)
+        self.pokemon_data['Sums_Match'] = self.pokemon_data['Calculated_Type_Count'] == self.pokemon_data['Sum_One_Hot_Types']
+        matching_percentage = self.pokemon_data['Sums_Match'].mean() * 100
+        print(f"Percentage of rows where the sums match: {matching_percentage:.2f}%")
+
+    def clean_data(self):
+        self.pokemon_data.drop(['Calculated_Type_Count', 'Sum_One_Hot_Types', 'Sums_Match'], axis=1, inplace=True)
+
+
+# Usage example assuming df is your DataFrame
+processor = Pokemon_type_Encoder(df)
+processor.one_hot_encode_types()
+processor.verify_encoding()
+processor.clean_data()
 
 # Selecting numerical columns except those to be excluded
 numerical_columns = [col for col in df.select_dtypes(include='number').columns]
@@ -144,95 +140,3 @@ plt.figure(figsize=(20, 16))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".1f", linewidths=0.5, mask=matrix)
 plt.title("Correlation Matrix Heatmap (Numerical Variables Only)")
 plt.show()
-
-
-def calculate_column_statistics_for_categorical_variables(df):
-    # Filter columns with categorical data types
-    categorical_columns = df.select_dtypes(include=['object']).columns
-
-    # Get all column names
-    all_columns = df.columns
-    total_columns = len(all_columns)
-
-    num_categorical_columns = len(categorical_columns)
-
-    # Find columns with numeric values
-    numeric_columns = [col for col in all_columns if df[col].dtype == 'int' or df[col].dtype == 'float']
-
-    print(f"Total number of columns: {total_columns}")
-    print(f"Number of categorical columns: {num_categorical_columns}")
-
-    # Set the max_colwidth option to control the width of the displayed column
-    pd.set_option('max_colwidth', 100)  # Adjust the width as needed
-
-    # Create a dictionary to store statistics
-    stats_dict = {
-        'Variable': categorical_columns,
-        'Number of Unique Values': [],
-        'Top 5 Most Frequent Values': []
-    }
-
-    for column in categorical_columns:
-        num_unique_values = df[column].nunique()
-        top_5_frequent_values = df[column].value_counts().index[:5].tolist()  # Get the top 5 values as a list
-
-        stats_dict['Number of Unique Values'].append(num_unique_values)
-        stats_dict['Top 5 Most Frequent Values'].append(top_5_frequent_values)
-
-    # Create a DataFrame from the dictionary
-    stats_df = pd.DataFrame(stats_dict)
-
-    # Sort the DataFrame downward by the number of unique values
-    stats_df = stats_df.sort_values(by='Number of Unique Values', ascending=False)
-    stats_df = stats_df.reset_index(drop=True)
-
-    return stats_df
-
-calculate_column_statistics_for_categorical_variables(df)
-
-## Encoding categorical variables
-type1_dummies = pd.get_dummies(pokemon_victory_data['Type 1'], prefix='Type1')
-type2_dummies = pd.get_dummies(pokemon_victory_data['Type 2'], prefix='Type2')
-
-combined_types = type1_dummies.add(type2_dummies, fill_value=0).clip(upper=1)
-
-print(combined_types.head(20))
-
-
-import pandas as pd
-
-# Load the datasets (assuming they are already loaded as pokemon_victory_data)
-# pokemon_data = pd.read_csv('path_to_pokemon.csv')
-# combats_data = pd.read_csv('path_to_combats.csv')
-
-# One-Hot Encode 'Type 1' and 'Type 2'
-type1_dummies = pd.get_dummies(pokemon_victory_data['Type 1'])
-type2_dummies = pd.get_dummies(pokemon_victory_data['Type 2'])
-
-# Ensuring both DataFrames have the same columns
-all_types = type1_dummies.columns.union(type2_dummies.columns)
-type1_dummies = type1_dummies.reindex(columns=all_types, fill_value=0)
-type2_dummies = type2_dummies.reindex(columns=all_types, fill_value=0)
-
-# Combining the one-hot encoded data
-combined_types = type1_dummies.add(type2_dummies, fill_value=0).clip(upper=1)
-
-# List of one-hot encoded type columns
-one_hot_type_columns = combined_types.columns.tolist()
-
-# Concatenating the combined one-hot encoded types with the original data
-pokemon_data_encoded = pd.concat([pokemon_victory_data, combined_types], axis=1)
-
-# Calculating the number of types per Pokémon
-pokemon_data_encoded['Calculated_Type_Count'] = pokemon_data_encoded['Type 1'].notnull().astype(int) + pokemon_data_encoded['Type 2'].notnull().astype(int)
-
-# Summing the one-hot encoded type columns using the list
-pokemon_data_encoded['Sum_One_Hot_Types'] = pokemon_data_encoded[one_hot_type_columns].sum(axis=1)
-
-# Comparing the sums
-pokemon_data_encoded['Sums_Match'] = pokemon_data_encoded['Calculated_Type_Count'] == pokemon_data_encoded['Sum_One_Hot_Types']
-
-# Calculating the percentage of matching rows
-matching_percentage = pokemon_data_encoded['Sums_Match'].mean() * 100
-
-print(f"Percentage of rows where the sums match: {matching_percentage:.2f}%")
