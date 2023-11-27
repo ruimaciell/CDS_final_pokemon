@@ -7,7 +7,6 @@ import statistics
 # Loading the datasets
 pokemon_data = pd.read_csv('raw_data/pokemon.csv')
 combats_data = pd.read_csv('raw_data/combats.csv')
-import pandas as pd
 
 class PokemonBattleProcessor:
     def __init__(self, pokemon_data, combats_data):
@@ -36,12 +35,7 @@ class PokemonBattleProcessor:
     def display_data(self, rows=5):
         print(self.pokemon_data.head(rows))
 
-# Usage example, assuming pokemon_data and combats_data are your DataFrames
-processor = PokemonBattleProcessor(pokemon_data, combats_data)
-processor.process_battle_data()
-df = processor.get_processed_data()
-processor.display_data()
-
+"""Basic data cheks - Numerical variables, categorical ones and missing data"""
 
 ## IT WORKKKKKKKKS. Now lets do basic things to see the state of the data
 class DataProcessor:
@@ -89,54 +83,236 @@ class MissingDataVisualizer(DataProcessor):
         plt.show()
 
 
+class CorrelationMatrixVisualizer:
+    def __init__(self, df):
+        self.df = df
+
+    def select_numerical_columns(self):
+        self.numerical_columns = [col for col in self.df.select_dtypes(include='number').columns]
+
+    def calculate_correlation_matrix(self):
+        self.selected_df = self.df[self.numerical_columns]
+        self.correlation_matrix = self.selected_df.corr()
+
+    def plot_heatmap(self, figsize=(20, 16)):
+        matrix = np.triu(self.correlation_matrix)
+        plt.figure(figsize=figsize)
+        sns.heatmap(self.correlation_matrix, annot=True, cmap='coolwarm', fmt=".1f", linewidths=0.5, mask=matrix)
+        plt.title("Correlation Matrix Heatmap (Numerical Variables Only)")
+        plt.show()
+
+
+
+# Initialize and process the battle data
+battle_processor = PokemonBattleProcessor(pokemon_data, combats_data)
+battle_processor.process_battle_data()
+df = battle_processor.get_processed_data()
+
 numeric_analyzer = NumericDataAnalyzer(df)
 numeric_stats = numeric_analyzer.calculate_statistics()
-
+numeric_stats
 categorical_analyzer = CategoricalDataAnalyzer(df)
 categorical_stats = categorical_analyzer.calculate_statistics()
-
+categorical_stats
 missing_data_visualizer = MissingDataVisualizer(df)
 missing_data_visualizer.visualize_missing_data()
+missing_data_visualizer
+# Initialize the CorrelationMatrixVisualizer with your DataFrame
+visualizer = CorrelationMatrixVisualizer(df)
+visualizer.select_numerical_columns()
+visualizer.calculate_correlation_matrix()
+visualizer.plot_heatmap()
+
+
+"""Feature engineering - creating new variables"""
+
+"""Pokemon Power Calculator - creates offensive power, defensive power and the ratio of the speed to power attack"""
+
+class PokemonDataCalculator:
+    def __init__(self, df):
+        self.pokemon_data = df
+
+    def normalize(self, column):
+        return (self.pokemon_data[column] - self.pokemon_data[column].min()) / (self.pokemon_data[column].max() - self.pokemon_data[column].min())
+
+    def check_columns(self, columns):
+        missing_columns = [col for col in columns if col not in self.pokemon_data.columns]
+        if missing_columns:
+            raise ValueError(f"Missing columns in the dataset: {missing_columns}")
+
+class OffensivePowerCalculator(PokemonDataCalculator):
+    def calculate(self):
+        self.check_columns(['Sp. Atk', 'Attack', 'Speed'])
+        normalized_sp_atk = self.normalize('Sp. Atk')
+        normalized_attack = self.normalize('Attack')
+        normalized_speed = self.normalize('Speed')
+        self.pokemon_data['Offensive_Power'] = (normalized_sp_atk + normalized_attack + 2 * normalized_speed) / 4
+
+class DefensivePowerCalculator(PokemonDataCalculator):
+    def calculate(self):
+        self.check_columns(['Sp. Def', 'Defense', 'HP'])
+        normalized_sp_def = self.normalize('Sp. Def')
+        normalized_defense = self.normalize('Defense')
+        normalized_hp = self.normalize('HP')
+        self.pokemon_data['Defensive_Power'] = (normalized_sp_def + normalized_defense + 2 * normalized_hp) / 4
+
+class SpeedToPowerRatioCalculator(PokemonDataCalculator):
+    def calculate(self):
+        self.check_columns(['Speed', 'Attack', 'Sp. Atk'])
+        normalized_speed = self.normalize('Speed')
+        normalized_attack = self.normalize('Attack')
+        normalized_sp_atk = self.normalize('Sp. Atk')
+        total_attack_power = normalized_sp_atk + normalized_attack
+        self.pokemon_data['Speed_to_Power_Ratio'] = normalized_speed / (total_attack_power + 0.001)  # Adding a small constant to avoid division by zero
+
 
 """Pokemon Type Encoder"""
 class PokemonTypeEncoder:
     def __init__(self, df):
+        self.original_df = df  # Store the original DataFrame
+        self.pokemon_data = df.copy()  # Create a copy to avoid modifying the original DataFrame directly
+        self.type_columns = []  # To store the names of type columns
+
+    def one_hot_encode_type1(self):
+        # One-hot encode 'Type 1'
+        type1_dummies = pd.get_dummies(self.pokemon_data['Type 1'])
+        self.type_columns = type1_dummies.columns.tolist()
+        self.pokemon_data = pd.concat([self.pokemon_data, type1_dummies], axis=1)
+
+    def encode_type2(self):
+        # For each type in 'Type 2', if it's a type column, set it to 1
+        for index, row in self.pokemon_data.iterrows():
+            type2 = row['Type 2']
+            if type2 and type2 in self.type_columns:
+                self.pokemon_data.at[index, type2] = 1
+            elif type2:
+                # If it's a new type, add it to the type_columns list and create a new column
+                self.type_columns.append(type2)
+                self.pokemon_data[type2] = 0
+                self.pokemon_data.at[index, type2] = 1
+
+    def get_updated_dataframe(self):
+        # Reset indexes before concatenation
+        original_df_reset = self.original_df.reset_index(drop=True)
+        pokemon_data_reset = self.pokemon_data.reset_index(drop=True)
+
+        # Merge the modified DataFrame with the original DataFrame
+        merged_df = pd.concat([original_df_reset, pokemon_data_reset], axis=1)
+
+        # Convert True/False values to 1/0 in the columns created during one-hot encoding
+        for column in self.type_columns:
+            merged_df[column] = merged_df[column].astype(int)
+
+        return merged_df.drop_duplicates(subset=self.original_df.columns, keep='last')
+
+
+"""Pokemon Dummy Legendary Encoder"""
+
+class Pokemon_Dummy_Legendary_Encoder:
+    def __init__(self, df):
         self.pokemon_data = df
-        self.type_dummies = None  # Added to store type dummies
 
-    def one_hot_encode_types(self):
-        self.type_dummies = pd.get_dummies(self.pokemon_data[['Type 1', 'Type 2']].stack()).groupby(level=0).max()
-        self.pokemon_data = pd.concat([self.pokemon_data, self.type_dummies], axis=1)
-
-    def verify_encoding(self):
-        self.pokemon_data['Calculated_Type_Count'] = self.pokemon_data[['Type 1', 'Type 2']].notnull().sum(axis=1)
-        self.pokemon_data['Sum_One_Hot_Types'] = self.pokemon_data[self.type_dummies.columns].sum(axis=1)
-        self.pokemon_data['Sums_Match'] = self.pokemon_data['Calculated_Type_Count'] == self.pokemon_data['Sum_One_Hot_Types']
-        matching_percentage = self.pokemon_data['Sums_Match'].mean() * 100
-        print(f"Percentage of rows where the sums match: {matching_percentage:.2f}%")
-
-    def clean_data(self):
-        self.pokemon_data.drop(['Calculated_Type_Count', 'Sum_One_Hot_Types', 'Sums_Match'], axis=1, inplace=True)
+    def encode_legendary(self):
+        self.pokemon_data['Legendary'] = self.pokemon_data['Legendary'].astype(int)
 
 
-# Usage example assuming df is your DataFrame
-processor = Pokemon_type_Encoder(df)
-processor.one_hot_encode_types()
-processor.verify_encoding()
-processor.clean_data()
+# Applying the calculations to the dataset
+offensive_calculator = OffensivePowerCalculator(pokemon_data)
+defensive_calculator = DefensivePowerCalculator(pokemon_data)
+speed_power_ratio_calculator = SpeedToPowerRatioCalculator(pokemon_data)
 
-# Selecting numerical columns except those to be excluded
-numerical_columns = [col for col in df.select_dtypes(include='number').columns]
+offensive_calculator.calculate()
+defensive_calculator.calculate()
+speed_power_ratio_calculator.calculate()
 
-# Creating a new dataframe with only the selected numerical columns
-selected_df = df[numerical_columns]
+# One-hot encode the Pokémon types
+type_encoder = PokemonTypeEncoder(df)
+type_encoder.one_hot_encode_type1()
+type_encoder.encode_type2()
+df = type_encoder.get_updated_dataframe()
 
-# Correlation matrix 
-correlation_matrix = selected_df.corr()
-# Getting the Upper Triangle of the co-relation matrix
-matrix = np.triu(correlation_matrix)
-# Create a heatmap
-plt.figure(figsize=(20, 16)) 
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".1f", linewidths=0.5, mask=matrix)
-plt.title("Correlation Matrix Heatmap (Numerical Variables Only)")
-plt.show()
+# Encode the 'Legendary' status as an integer
+legendary_encoder = Pokemon_Dummy_Legendary_Encoder(df)
+legendary_encoder.encode_legendary()
+
+
+
+
+"""5 features have been created - Type 1 and type 2 encoder, dummy legendary encoder, offensive power calculator, defensive power calculator, speed to power ratio calculator. In addition to this, we
+have previously merged datasets and created new variables, including the one we will predict."""
+
+
+"""Now let's do EDA"""
+
+#Let's check the main differences in the datasets before and after the feature engineering
+
+numeric_analyzer = NumericDataAnalyzer(df)
+numeric_stats = numeric_analyzer.calculate_statistics()
+numeric_stats
+categorical_analyzer = CategoricalDataAnalyzer(df)
+categorical_stats = categorical_analyzer.calculate_statistics()
+missing_data_visualizer = MissingDataVisualizer(df)
+missing_data_visualizer.visualize_missing_data()
+missing_data_visualizer
+# Initialize the CorrelationMatrixVisualizer with your DataFrame
+visualizer = CorrelationMatrixVisualizer(df)
+visualizer.select_numerical_columns()
+visualizer.calculate_correlation_matrix()
+visualizer.plot_heatmap()
+
+
+"""Now let's do some visualizations"""
+
+
+class PokemonVisualizations:
+    def __init__(self, df):
+        self.df = df
+
+    def box_plot_by_generation(self):
+        plt.figure(figsize=(12, 6))
+        sns.boxplot(data=self.df, x='Generation', y='Victory_Rate')
+        plt.title('Box Plot of Victory Rate by Generation')
+        plt.xlabel('Generation')
+        plt.ylabel('Victory Rate')
+        plt.xticks(rotation=45)
+        plt.show()
+
+    def density_plot_by_type_columns(self):
+        # Get the list of type columns from the DataFrame
+        type_columns = [col for col in self.df.columns if col.startswith('Type_')]
+
+        # Create a new column 'Type' that combines all type columns
+        self.df['Type'] = self.df[type_columns].idxmax(axis=1).str.replace('Type_', '')
+
+        plt.figure(figsize=(12, 6))
+        sns.kdeplot(data=self.df, x='Victory_Rate', hue='Type', fill=True, common_norm=False)
+        plt.title('Density Plot of Victory Rate by Type')
+        plt.xlabel('Victory Rate')
+        plt.ylabel('Density')
+        plt.legend(title='Type', loc='upper right')
+        plt.show()
+
+    def box_plot_legendary_vs_non_legendary(self):
+        plt.figure(figsize=(8, 6))
+        sns.boxplot(data=self.df, x='Legendary', y='Victory_Rate')
+        plt.title('Box Plot of Victory Rate for Legendary vs. Non-Legendary Pokemon')
+        plt.xlabel('Legendary')
+        plt.ylabel('Victory Rate')
+        plt.xticks([0, 1], ['Non-Legendary', 'Legendary'])
+        plt.show()
+
+    def compare_victory_rate_legendary_vs_non_legendary(self):
+        mean_victory_rate_legendary = self.df[self.df['Legendary'] == 1]['Victory_Rate'].mean()
+        mean_victory_rate_non_legendary = self.df[self.df['Legendary'] == 0]['Victory_Rate'].mean()
+
+        print("Mean Victory Rate for Legendary Pokemon:", mean_victory_rate_legendary)
+        print("Mean Victory Rate for Non-Legendary Pokemon:", mean_victory_rate_non_legendary)
+
+# Initialize the class with your base DataFrame
+pokemon_visualizations = PokemonVisualizations(df)
+
+# Generate and display the visualizations
+pokemon_visualizations.box_plot_by_generation()
+pokemon_visualizations.density_plot_by_type_columns()
+pokemon_visualizations.box_plot_legendary_vs_non_legendary()
+pokemon_visualizations.compare_victory_rate_legendary_vs_non_legendary()
