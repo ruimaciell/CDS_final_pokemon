@@ -1,5 +1,4 @@
-# CDS_FINAL_POKEMON
-  ### Library Structure
+# Final project of Computing for Data Science
   
 ![charmander](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif)
  
