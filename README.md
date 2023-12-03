@@ -11,21 +11,36 @@
 </p>  
   
 ---
+## Index  
 
+## Introduction
 
-
-
+1. Team Overview - Outlining the presentation content each team member will cover.
+2. Context - Providing an overview of the subject matter and the dataset utilized.
+3. Onboarding - Installing the library #pip install -e .  
+  
+## Library Arquitecture  
+  
     ## Library  Name : library_final
 
         #### Function Folder : pokedex
 
-            - Python file 1: load_class.py
-            - Python file 2: prepro_class.py
-            - Python file 3: feature_class.py
-            - Python file 4: model_class.py
+            - Module1: TBDload_class.py
+            - Module2: TBDprepro_class.py
+            - Module3: feature_class.py
+            - Module4: TBDmodel_class.py
+            - Module5: TBDhypertuning_class.py
 
-    ##raw_data
+    ## raw_data
 
     ## Notebooks  
-
-        #### Main.ipynb
+      - Main.ipynb  
+      
+    ## Images  
+      
+    - .gitignore
+    - README.md
+    - requirements.txt
+    - setup.cfg
+    - setup.py
+    
