@@ -6,7 +6,10 @@
   </a>
 </p>
 
-![charmander](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif)
+<p align="center">
+  <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif" alt="charmander">
+</p>
+
 
 
     ## Library  Name : library_final
