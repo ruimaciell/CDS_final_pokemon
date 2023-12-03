@@ -316,3 +316,4 @@ pokemon_visualizations.box_plot_by_generation()
 pokemon_visualizations.density_plot_by_type_columns()
 pokemon_visualizations.box_plot_legendary_vs_non_legendary()
 pokemon_visualizations.compare_victory_rate_legendary_vs_non_legendary()
+
