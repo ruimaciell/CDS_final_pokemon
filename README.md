@@ -1,6 +1,6 @@
 # Final project of Computing for Data Science
 
-[![Header](https://https://github.com/ruimaciell/CDS_final_pokemon/blob/main/pokemon.png "Header")](https://pokemondb.net/pokedex/all/)
+[![Header](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/pokemon.png "Header")](https://pokemondb.net/pokedex/all/)
 
 ![charmander](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif)
 
