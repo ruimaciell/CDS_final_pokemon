@@ -20,7 +20,7 @@
 3. Onboarding - Installing the library #pip install -e .  
   
 ## Library Arquitecture  
-  
+<pre> 
 ├── Notebooks  
 │   └── Main.ipynb  
 ├── README.md  
@@ -56,3 +56,4 @@
 └── tree.txt  
   
 8 directories, 31 files
+</pre>
