@@ -1,40 +1,23 @@
-# Final project of Computing for Data Science
-
-<p align="center">
-  <a href="https://pokemondb.net/pokedex/all/">
-    <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/pokemon.png" alt="Header">
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif" alt="charmander">
-</p>  
-  
----
-## Index  
-
-## Introduction
-
-1. Team Overview - Outlining the presentation content each team member will cover.
-2. Context - Providing an overview of the subject matter and the dataset utilized.
-3. Onboarding - Installing the library #pip install -e .  
-  
-## Library Arquitecture  
-  
+.
 ├── Notebooks
 │   └── Main.ipynb
 ├── README.md
 ├── charmander.gif
 ├── library_final
 │   ├── __init__.py
+│   ├── __pycache__
+│   │   └── __init__.cpython-312.pyc
 │   └── pokedex
 │       ├── TBDload_class.py
 │       ├── TBDmodel_class.py
 │       ├── TBDprepro_class.py
 │       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-312.pyc
+│       │   └── feature_class.cpython-312.pyc
 │       ├── feature_class.py
 │       ├── model_implementation.py
-│ 
+│       └── test.py
 ├── library_final.egg-info
 │   ├── PKG-INFO
 │   ├── SOURCES.txt
