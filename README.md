@@ -8,7 +8,10 @@
 
 <p align="center">
   <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif" alt="charmander">
-</p>
+</p>  
+  
+---
+
 
 
 
