@@ -21,38 +21,38 @@
   
 ## Library Arquitecture  
   
-├── Notebooks
-│   └── Main.ipynb
-├── README.md
-├── charmander.gif
-├── library_final
-│   ├── __init__.py
-│   └── pokedex
-│       ├── TBDload_class.py
-│       ├── TBDmodel_class.py
-│       ├── TBDprepro_class.py
-│       ├── __init__.py
-│       ├── feature_class.py
-│       ├── model_implementation.py
-│ 
-├── library_final.egg-info
-│   ├── PKG-INFO
-│   ├── SOURCES.txt
-│   ├── dependency_links.txt
-│   ├── requires.txt
-│   └── top_level.txt
-├── pokemon.png
-├── raw_data
-│   ├── ProcessedData.csv
-│   ├── combats.csv
-│   ├── pokemon.csv
-│   ├── pokemon_id_each_team.csv
-│   ├── team_combat.csv
-│   └── your_dataset.csv
-├── requirements.txt
-├── setup.cfg
-├── setup.py
-├── testing.py
-└── tree.txt
-
+├── Notebooks  
+│   └── Main.ipynb  
+├── README.md  
+├── charmander.gif  
+├── library_final  
+│   ├── __init__.py  
+│   └── pokedex  
+│       ├── TBDload_class.py  
+│       ├── TBDmodel_class.py  
+│       ├── TBDprepro_class.py  
+│       ├── __init__.py  
+│       ├── feature_class.py  
+│       ├── model_implementation.py  
+│   
+├── library_final.egg-info  
+│   ├── PKG-INFO  
+│   ├── SOURCES.txt  
+│   ├── dependency_links.txt  
+│   ├── requires.txt  
+│   └── top_level.txt  
+├── pokemon.png  
+├── raw_data  
+│   ├── ProcessedData.csv  
+│   ├── combats.csv  
+│   ├── pokemon.csv  
+│   ├── pokemon_id_each_team.csv  
+│   ├── team_combat.csv  
+│   └── your_dataset.csv  
+├── requirements.txt  
+├── setup.cfg  
+├── setup.py  
+├── testing.py  
+└── tree.txt  
+  
 8 directories, 31 files
