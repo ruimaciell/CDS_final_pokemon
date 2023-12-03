@@ -2,7 +2,10 @@
 ├── Notebooks
 │   └── Main.ipynb
 ├── README.md
-├── charmander.gif
+├── Test
+├── images
+│   ├── charmander.gif
+│   └── pokemon.png
 ├── library_final
 │   ├── __init__.py
 │   ├── __pycache__
@@ -24,7 +27,6 @@
 │   ├── dependency_links.txt
 │   ├── requires.txt
 │   └── top_level.txt
-├── pokemon.png
 ├── raw_data
 │   ├── ProcessedData.csv
 │   ├── combats.csv
@@ -38,4 +40,4 @@
 ├── testing.py
 └── tree.txt
 
-8 directories, 31 files
+10 directories, 31 files
