@@ -43,4 +43,5 @@
     - requirements.txt
     - setup.cfg
     - setup.py
-    
+      
+$ ./tree-md .
