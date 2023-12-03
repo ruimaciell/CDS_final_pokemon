@@ -1,15 +1,16 @@
-# DS_HW4
+# CDS_FINAL_POKEMON
   ### Library Structure
+  
+![](https://github.com/Users/mikelgallo/repos/CDS_final_pokemon/charmander.gif)
+    ## Library  Name : library_final
 
-    ## Library  Name : library_hw4
-
-        #### Function Folder : lib4
+        #### Function Folder : pokedex
 
             - Python file 1: load_class.py
             - Python file 2: prepro_class.py
             - Python file 3: feature_class.py
             - Python file 4: model_class.py
-
+            
     ## Hmw4 Solution:  hw4.py  
 
     ## Notebooks  

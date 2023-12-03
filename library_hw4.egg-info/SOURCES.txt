@@ -1,8 +1,0 @@
-README.md
-setup.cfg
-setup.py
-library_hw4.egg-info/PKG-INFO
-library_hw4.egg-info/SOURCES.txt
-library_hw4.egg-info/dependency_links.txt
-library_hw4.egg-info/requires.txt
-library_hw4.egg-info/top_level.txt

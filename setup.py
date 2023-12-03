@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-import library_hw4
+import library_final
 
 def get_requirements(requirements_path='requirements.txt'):
     with open(requirements_path) as fp:
@@ -12,14 +12,14 @@ def get_requirements(requirements_path='requirements.txt'):
 get_requirements()
 
 setup(
-    name='library_hw4',
-    version=library_hw4.__version__,
-    description='Second library',
+    name='library_final',
+    version=library_final.__version__,
+    description='Final library',
     author='Mikel, Luis, Rui',
     packages=find_packages(where='', exclude=['tests']),
     install_requires=get_requirements(),
     setup_requires=['pytest-runner', 'wheel'],
-    url='https://github.com/lalvarezpoli/DS_HW3.git',
+    url='https://github.com/ruimaciell/CDS_final_pokemon.git',
     classifiers=[
         'Programming Language :: Python >= 3.7.16'
     ]
