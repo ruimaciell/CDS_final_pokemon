@@ -3,7 +3,8 @@
 
 ###MY GIPHY  
 
-![](https://https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif)  
+![charmander](https://https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif)  
+
 
     ## Library  Name : library_final
 
