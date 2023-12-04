@@ -20,8 +20,7 @@
 3. Onboarding - Installing the library #pip install -e .  
   
 ## Library Arquitecture  
-<pre> 
-
+<pre>
 ├── library_final
 │   ├── __init__.py
 │   ├── __pycache__
