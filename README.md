@@ -21,13 +21,7 @@
   
 ## Library Arquitecture  
 <pre> 
-├── Notebooks
-│   └── Main.ipynb
-├── README.md
-├── Test
-├── images
-│   ├── charmander.gif
-│   └── pokemon.png
+
 ├── library_final
 │   ├── __init__.py
 │   ├── __pycache__
@@ -36,19 +30,16 @@
 │       ├── TBDload_class.py
 │       ├── TBDmodel_class.py
 │       ├── TBDprepro_class.py
-│       ├── __init__.py
-│       ├── __pycache__
-│       │   ├── __init__.cpython-312.pyc
-│       │   └── feature_class.cpython-312.pyc
 │       ├── feature_class.py
 │       ├── model_implementation.py
-│       └── test.py
-├── library_final.egg-info
-│   ├── PKG-INFO
-│   ├── SOURCES.txt
-│   ├── dependency_links.txt
-│   ├── requires.txt
-│   └── top_level.txt
+│       └── __init__.py
+|
+├── Notebooks
+│   └── Main.ipynb
+├── Test
+├── images
+│   ├── charmander.gif
+│   └── pokemon.png   
 ├── raw_data
 │   ├── ProcessedData.csv
 │   ├── combats.csv
@@ -56,11 +47,13 @@
 │   ├── pokemon_id_each_team.csv
 │   ├── team_combat.csv
 │   └── your_dataset.csv
+|
 ├── requirements.txt
+├── README.md
 ├── setup.cfg
 ├── setup.py
 ├── testing.py
 └── tree.txt 
   
-10 directories, 31 files
+6 directories, 23 files
 </pre>
