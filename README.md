@@ -2,12 +2,12 @@
 
 <p align="center">
   <a href="https://pokemondb.net/pokedex/all/">
-    <img src="https://github.com/ruimaciell/CDS_final_pokemon/images/blob/main/pokemon.png" alt="Header">
+    <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/pokemon.png" alt="Header">
   </a>
 </p>
 
 <p align="center">
-  <img src="https://github.com/ruimaciell/CDS_final_pokemon/images/blob/main/charmander.gif" alt="charmander">
+  <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/charmander.gif" alt="charmander">
 </p>  
   
 ---
