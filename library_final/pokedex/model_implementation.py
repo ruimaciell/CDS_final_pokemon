@@ -15,26 +15,7 @@ from sklearn.preprocessing import StandardScaler
 import warnings
 warnings.filterwarnings("ignore")
 
-### 2. Load Datasets. No need for function since we already have RUI's df.
-pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/raw_data/ProcessedData.csv')
 
-columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
-pokemon_data = pokemon_data[columns_to_use]
-
-
-### 3. Divide Data into subsets
-class TrainTestDivider:
-    def __init__(self, df):
-        self.df = df
-
-    def train_test(self):
-        # Assuming df_X and df_y are attributes you want to access outside the method
-        self.df_X = self.df.drop(['Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Type 1', 'Type 2', 'Name'], axis=1)
-        self.df_y = self.df['Victory_Rate']
-
-        # 20% split into test data.
-        X_train, X_test, y_train, y_test = train_test_split(self.df_X, self.df_y, test_size=0.2, random_state=42)
-        return X_train, X_test, y_train, y_test, self.df_X, self.df_y
 
 
 ### 4. Models
@@ -270,63 +251,60 @@ class RandomForestRegressorWrapper:
 
 
 
-pokemon_data_foo = TrainTestDivider(pokemon_data)
-X_train, X_test, y_train, y_test, df_X, df_y = pokemon_data_foo.train_test()
 
 
+# # Assuming you have X_train, y_train, df_X, and df_y defined
+# lr_analyzer = LinearRegressionAnalyzer(X_train, y_train, df_X, df_y)
 
-# Assuming you have X_train, y_train, df_X, and df_y defined
-lr_analyzer = LinearRegressionAnalyzer(X_train, y_train, df_X, df_y)
+# # Train the model
+# lr_analyzer.train_model()
 
-# Train the model
-lr_analyzer.train_model()
+# # Make predictions
+# y_pred_lr = lr_analyzer.make_predictions(X_test)
 
-# Make predictions
-y_pred_lr = lr_analyzer.make_predictions(X_test)
+# # Evaluate the model
+# lr_analyzer.evaluate_model(y_test, y_pred_lr)
 
-# Evaluate the model
-lr_analyzer.evaluate_model(y_test, y_pred_lr)
+# # Perform k-fold cross-validation
+# lr_analyzer.k_fold_cross_validation()
 
-# Perform k-fold cross-validation
-lr_analyzer.k_fold_cross_validation()
+# #lr_analyzer.plot_actual_vs_predicted(y_test, y_pred_lr)
 
-#lr_analyzer.plot_actual_vs_predicted(y_test, y_pred_lr)
-
-# Plot distribution of residuals
-#lr_analyzer.plot_residual_distribution(y_test, y_pred_lr)
-
-
-# Example usage:
-# Assuming you have X_train, y_train, X_test, y_test, and alphas defined
-lasso_optimizer = LassoOptimizer(X_train, y_train, X_test, y_test)
-
-# Define a range of alpha values to try
-alphas_lasso = np.linspace(0.0001, 1, 100)
-
-# Optimize alpha
-lasso_optimizer.optimize_alpha(alphas_lasso)
-
-# Optimize alpha with CV
-lasso_optimizer.optimize_alpha_cv(alphas_lasso)
+# # Plot distribution of residuals
+# #lr_analyzer.plot_residual_distribution(y_test, y_pred_lr)
 
 
-ridge_optimizer = RidgeOptimizer(X_train, y_train, X_test, y_test)
+# # Example usage:
+# # Assuming you have X_train, y_train, X_test, y_test, and alphas defined
+# lasso_optimizer = LassoOptimizer(X_train, y_train, X_test, y_test)
 
-# Define a range of alpha values to try
-alphas_ridge = np.linspace(0.1, 10, 100)
+# # Define a range of alpha values to try
+# alphas_lasso = np.linspace(0.0001, 1, 100)
 
-# Optimize alpha
-ridge_optimizer.optimize_alpha(alphas_ridge)
+# # Optimize alpha
+# lasso_optimizer.optimize_alpha(alphas_lasso)
 
-# Optimize alpha with CV
-ridge_optimizer.optimize_alpha_cv(alphas_ridge)
-
-ridge_optimizer.plot_alphas_mse(alphas_ridge)
+# # Optimize alpha with CV
+# lasso_optimizer.optimize_alpha_cv(alphas_lasso)
 
 
-# Example usage
-rf_wrapper = RandomForestRegressorWrapper(X_train, y_train, X_test, y_test, columns_to_use)
-rf_wrapper.fit_and_predict()
+# ridge_optimizer = RidgeOptimizer(X_train, y_train, X_test, y_test)
+
+# # Define a range of alpha values to try
+# alphas_ridge = np.linspace(0.1, 10, 100)
+
+# # Optimize alpha
+# ridge_optimizer.optimize_alpha(alphas_ridge)
+
+# # Optimize alpha with CV
+# ridge_optimizer.optimize_alpha_cv(alphas_ridge)
+
+# ridge_optimizer.plot_alphas_mse(alphas_ridge)
+
+
+# # Example usage
+# rf_wrapper = RandomForestRegressorWrapper(X_train, y_train, X_test, y_test, columns_to_use)
+# rf_wrapper.fit_and_predict()
 
 
 
