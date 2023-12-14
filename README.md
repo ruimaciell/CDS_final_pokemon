@@ -65,7 +65,7 @@ In our system, a parent class acts as the overarching container for all models, 
 
 To introduce a new model, one only needs to create a new child class. This new class generates an instance of the model, handles the fitting process, and predicts the target variable. By referring to the methods established in the parent class, this approach eliminates the need to build an entirely new model from scratch, ensuring a scalable and robust foundation for future model expansions.
 
-<img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg∫" alt="Header">
+<img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg">
 
 ## Library Arquitecture  
 <pre>
