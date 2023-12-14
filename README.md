@@ -14,8 +14,8 @@
 ## Table of Contents
 
 1. **Introduction**
-    - [Overview of the Project](#overview-of-the-project)
-    - [Installation and Onboarding](#installation-and-onboarding)
+    - [Project Overview](#Project-overview)
+    - [What pokemon should I choose first?](#What-pokemon-should-I-choose-first?)
     - [Team Overview](#team-overview)
 
 2. **Library Architecture**
@@ -44,6 +44,10 @@ We've provided four CSV files, with a focus on `combat.csv` and `pokemon.csv`. T
 
 Embark on this Pokemon journey with us as we unravel the magic of battles and predictive modeling!
 
+---
+# Installation and Onboarding
+
+#### What pokemon should I choose first?
 
 
 
