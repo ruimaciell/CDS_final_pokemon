@@ -4,3 +4,4 @@ numpy >= 1.21.6
 ipython >=7.33.0
 matplotlib >= 3.5.3
 scikit-learn  >= 1.0.2
+psycopg2 >= 2.9.9

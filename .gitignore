@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 *.DS_Store
+query_credentials.json
