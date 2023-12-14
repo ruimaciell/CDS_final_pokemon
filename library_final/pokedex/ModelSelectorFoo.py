@@ -19,10 +19,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 ### 2. Load Datasets. No need for function since we already have RUI's df.
-pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/Notebooks/raw_data/ProcessedData.csv')
+#pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/Notebooks/raw_data/ProcessedData.csv')
 
-columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
-pokemon_data = pokemon_data[columns_to_use]
+#columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
+#pokemon_data = pokemon_data[columns_to_use]
 
 
 ### 3. Divide Data into subsets
@@ -75,6 +75,11 @@ class Model:
         plt.xlabel('Actual Values')
         plt.ylabel('Predicted Values')
         plt.show()
+    
+    def simple_result(self):
+        self.train_model()
+        self.make_pred()
+        self.model_evaluation()
 
     def k_fold_cross_validation(self, n_splits=5):
         if self.X_train is not None and self.y_train is not None:
@@ -91,7 +96,6 @@ class Model:
 class LinearRegressionAnalyzer(Model):
     def __init__(self):
         super().__init__(LinearRegression())  # Create an instance of LinearRegression
-    
 
 
 class LassoModel(Model):
@@ -194,14 +198,14 @@ class RandomForestModel(Model):
 
 
 # Assuming you have a dataframe named pokemon_data
-divider = TrainTestDivider(pokemon_data)
-X_train, X_test, y_train, y_test = divider.train_test()
+#divider = TrainTestDivider(pokemon_data)
+#X_train, X_test, y_train, y_test = divider.train_test()
 
 # Creating a linspace for Lasso alphas
-lasso_alphas = np.linspace(0.001, 1, num=30)
+#lasso_alphas = np.linspace(0.001, 1, num=30)
 
 # Creating a linspace for Ridge alphas
-ridge_alphas = np.linspace(0.01, 100, num=30)
+#ridge_alphas = np.linspace(0.01, 100, num=30)
 
 
 
@@ -213,7 +217,7 @@ ridge_alphas = np.linspace(0.01, 100, num=30)
 # linear_reg_model.set_data(X_train, y_train, X_test, y_test)
 
 # # Train the linear regression model
-# linear_reg_model.train_model()
+#linear_reg_model.simple_result
 
 # # Make predictions
 # predictions = linear_reg_model.make_pred()
@@ -225,6 +229,8 @@ ridge_alphas = np.linspace(0.01, 100, num=30)
 # cv_results = linear_reg_model.k_fold_cross_validation()
 
 # linear_reg_model.plot_actual_vs_predicted()
+
+
 
 
 
@@ -259,23 +265,23 @@ ridge_alphas = np.linspace(0.01, 100, num=30)
 
 #RANDOM FOREST
 # Create an instance of RandomForestModel
-rf_model = RandomForestModel(n_estimators=100, max_depth=None, random_state=42)
+#rf_model = RandomForestModel(n_estimators=100, max_depth=None, random_state=42)
 
 # Set your training and testing data
-rf_model.set_data(X_train, y_train, X_test, y_test)
+#rf_model.set_data(X_train, y_train, X_test, y_test)
 
 # Train the Random Forest model
-rf_model.train_model()
+#rf_model.train_model()
 
 # Make predictions
-rf_predictions = rf_model.make_pred()
+#rf_predictions = rf_model.make_pred()
 
 # Evaluate the model
-rf_mse, rf_r_squared = rf_model.model_evaluation()
+#rf_mse, rf_r_squared = rf_model.model_evaluation()
 
 # Optionally, perform k-fold cross-validation
-rf_cv_results = rf_model.k_fold_cross_validation()
+#rf_cv_results = rf_model.k_fold_cross_validation()
 
 # Plot feature importances
-feature_names = X_train.columns  
-rf_model.plot_feature_importances(feature_names)
+#feature_names = X_train.columns  
+#rf_model.plot_feature_importances(feature_names)
