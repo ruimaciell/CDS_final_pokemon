@@ -1,3 +1,5 @@
+import pandas as pd
+
 class PokemonDataCalculator:
     def __init__(self, df):
         self.pokemon_data = df
@@ -5,12 +7,14 @@ class PokemonDataCalculator:
     def normalize(self, column):
         return (self.pokemon_data[column] - self.pokemon_data[column].min()) / (self.pokemon_data[column].max() - self.pokemon_data[column].min())
 
-    def check_columns(self, columns):
-        missing_columns = [col for col in columns if col not in self.pokemon_data.columns]
+    def check_columns(self, cols):
+        missing_columns = [col for col in cols if col not in self.pokemon_data.columns]
         if missing_columns:
             raise ValueError(f"Missing columns in the dataset: {missing_columns}")
 
 class OffensivePowerCalculator(PokemonDataCalculator):
+    def __init__(self,df):
+        super().__init__(df)
     def calculate(self):
         self.check_columns(['Sp. Atk', 'Attack', 'Speed'])
         normalized_sp_atk = self.normalize('Sp. Atk')
@@ -52,12 +56,12 @@ class PokemonTypeEncoder:
         for index, row in self.pokemon_data.iterrows():
             type2 = row['Type 2']
             if type2 and type2 in self.type_columns:
-                self.pokemon_data.at[index, type2] = 1
+                self.pokemon_data.at[index, type2] = int(1)
             elif type2:
                 # If it's a new type, add it to the type_columns list and create a new column
                 self.type_columns.append(type2)
-                self.pokemon_data[type2] = 0
-                self.pokemon_data.at[index, type2] = 1
+                self.pokemon_data[type2] = int(0)
+                self.pokemon_data.at[index, type2] = int(1)
 
     def get_updated_dataframe(self):
         # Reset indexes before concatenation
@@ -75,3 +79,11 @@ class PokemonTypeEncoder:
         merged_df = merged_df.loc[:,~merged_df.columns.duplicated()]
 
         return merged_df
+    
+
+class Pokemon_Dummy_Legendary_Encoder:
+    def __init__(self, df):
+        self.pokemon_data = df
+
+    def encode_legendary(self):
+        self.pokemon_data['Legendary'] = self.pokemon_data['Legendary'].astype(int)

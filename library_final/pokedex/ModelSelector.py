@@ -16,10 +16,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 ### 2. Load Datasets. No need for function since we already have RUI's df.
-pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/raw_data/ProcessedData.csv')
+#pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/raw_data/ProcessedData.csv')
 
-columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
-pokemon_data = pokemon_data[columns_to_use]
+#columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
+#pokemon_data = pokemon_data[columns_to_use]
 
 
 ### 3. Divide Data into subsets
@@ -54,7 +54,8 @@ class LinearRegressionAnalyzer:
 
     def evaluate_model(self, y_test, y_pred):
         mse = mean_squared_error(y_test, y_pred)
-        print(f"Mean Squared Error: {mse}")
+        r_sqr = r2_score(y_test, y_pred)
+        print(f"Mean Squared Error: {mse} and R-squared: {r_sqr}")
 
     def k_fold_cross_validation(self):
         lin_scoring = {'r_squared': make_scorer(r2_score), 'mse': make_scorer(mean_squared_error)}
@@ -270,25 +271,25 @@ class RandomForestRegressorWrapper:
 
 
 
-pokemon_data_foo = TrainTestDivider(pokemon_data)
-X_train, X_test, y_train, y_test, df_X, df_y = pokemon_data_foo.train_test()
+#pokemon_data_foo = TrainTestDivider(pokemon_data)
+#X_train, X_test, y_train, y_test, df_X, df_y = pokemon_data_foo.train_test()
 
 
 
 # Assuming you have X_train, y_train, df_X, and df_y defined
-lr_analyzer = LinearRegressionAnalyzer(X_train, y_train, df_X, df_y)
+#lr_analyzer = LinearRegressionAnalyzer(X_train, y_train, df_X, df_y)
 
 # Train the model
-lr_analyzer.train_model()
+#lr_analyzer.train_model()
 
 # Make predictions
-y_pred_lr = lr_analyzer.make_predictions(X_test)
+#y_pred_lr = lr_analyzer.make_predictions(X_test)
 
 # Evaluate the model
-lr_analyzer.evaluate_model(y_test, y_pred_lr)
+#lr_analyzer.evaluate_model(y_test, y_pred_lr)
 
 # Perform k-fold cross-validation
-lr_analyzer.k_fold_cross_validation()
+#lr_analyzer.k_fold_cross_validation()
 
 #lr_analyzer.plot_actual_vs_predicted(y_test, y_pred_lr)
 
@@ -298,35 +299,35 @@ lr_analyzer.k_fold_cross_validation()
 
 # Example usage:
 # Assuming you have X_train, y_train, X_test, y_test, and alphas defined
-lasso_optimizer = LassoOptimizer(X_train, y_train, X_test, y_test)
+#lasso_optimizer = LassoOptimizer(X_train, y_train, X_test, y_test)
 
 # Define a range of alpha values to try
-alphas_lasso = np.linspace(0.0001, 1, 100)
+#alphas_lasso = np.linspace(0.0001, 1, 100)
 
 # Optimize alpha
-lasso_optimizer.optimize_alpha(alphas_lasso)
+#lasso_optimizer.optimize_alpha(alphas_lasso)
 
 # Optimize alpha with CV
-lasso_optimizer.optimize_alpha_cv(alphas_lasso)
+#lasso_optimizer.optimize_alpha_cv(alphas_lasso)
 
 
-ridge_optimizer = RidgeOptimizer(X_train, y_train, X_test, y_test)
+#ridge_optimizer = RidgeOptimizer(X_train, y_train, X_test, y_test)
 
 # Define a range of alpha values to try
-alphas_ridge = np.linspace(0.1, 10, 100)
+#alphas_ridge = np.linspace(0.1, 10, 100)
 
 # Optimize alpha
-ridge_optimizer.optimize_alpha(alphas_ridge)
+#ridge_optimizer.optimize_alpha(alphas_ridge)
 
 # Optimize alpha with CV
-ridge_optimizer.optimize_alpha_cv(alphas_ridge)
+#ridge_optimizer.optimize_alpha_cv(alphas_ridge)
 
-ridge_optimizer.plot_alphas_mse(alphas_ridge)
+#ridge_optimizer.plot_alphas_mse(alphas_ridge)
 
 
 # Example usage
-rf_wrapper = RandomForestRegressorWrapper(X_train, y_train, X_test, y_test, columns_to_use)
-rf_wrapper.fit_and_predict()
+#rf_wrapper = RandomForestRegressorWrapper(X_train, y_train, X_test, y_test, columns_to_use)
+#rf_wrapper.fit_and_predict()
 
 
 
