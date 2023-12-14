@@ -1,7 +1,7 @@
 """Testing"""
 
 #import pytest
-#import pandas as pd
+import pandas as pd
 # from your_module import PokemonBattleProcessor, DataProcessor, NumericDataAnalyzer, CategoricalDataAnalyzer
 # Sample data for testing (You should replace this with the actual data or mock data)
 # pokemon_data = pd.DataFrame({'#': [1, 2], 'Name': ['Bulbasaur', 'Ivysaur']})
