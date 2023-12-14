@@ -18,12 +18,6 @@ from sklearn.ensemble import RandomForestRegressor
 import warnings
 warnings.filterwarnings("ignore")
 
-### 2. Load Datasets. No need for function since we already have RUI's df.
-pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/Notebooks/raw_data/ProcessedData.csv')
-
-columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
-pokemon_data = pokemon_data[columns_to_use]
-
 
 ### 3. Divide Data into subsets
 class TrainTestDivider:
@@ -195,92 +189,92 @@ class RandomForestModel(Model):
 
 
 # Assuming you have a dataframe named pokemon_data
-divider = TrainTestDivider(pokemon_data)
-X_train, X_test, y_train, y_test, df_X, df_y = divider.train_test()
+# divider = TrainTestDivider(pokemon_data)
+# X_train, X_test, y_train, y_test, df_X, df_y = divider.train_test()
 
-# # Creating a linspace for Lasso alphas
-lasso_alphas = np.linspace(0.001, 1, num=30)
+# # # Creating a linspace for Lasso alphas
+# lasso_alphas = np.linspace(0.001, 1, num=30)
 
-# Creating a linspace for Ridge alphas
-#ridge_alphas = np.linspace(0.01, 100, num=30)
+# # Creating a linspace for Ridge alphas
+# #ridge_alphas = np.linspace(0.01, 100, num=30)
 
 
 
-#LINEAR REGRESSION
-# # Create an instance of LinearRegressionAnalyzer
-# linear_reg_model = LinearRegressionAnalyzer()
+# #LINEAR REGRESSION
+# # # Create an instance of LinearRegressionAnalyzer
+# # linear_reg_model = LinearRegressionAnalyzer()
+
+# # # Set your training and testing data
+# # linear_reg_model.set_data(X_train, y_train, X_test, y_test)
+
+# # # Train the linear regression model
+# #linear_reg_model.simple_result
+
+# # # Make predictions
+# # predictions = linear_reg_model.make_pred()
+
+# # # Evaluate the model
+# # mse, r_squared = linear_reg_model.model_evaluation()
+
+# # # Optionally, you can perform k-fold cross-validation
+# # cv_results = linear_reg_model.k_fold_cross_validation()
+
+# # linear_reg_model.plot_actual_vs_predicted()
+
+
+
+
+
+# #LASSO
+# lasso_instance = LassoModel(alphas=lasso_alphas)
+
+# # Set the data
+# lasso_instance.set_data(X_train, y_train, X_test, y_test)
+
+
+# lasso_instance.simple_result()
+
+# #Run the Lasso model and perform cross-validation
+# lasso_instance.run_model_cv()
+
+
+
+# # #RIDGE
+# # # Create an instance of RidgeModel
+# # ridge_model = RidgeModel(alphas=ridge_alphas)  # You can customize the alphas as needed
+
+# # # Set your training and testing data
+# # ridge_model.set_data(X_train, y_train, X_test, y_test)
+
+# # # Train the Ridge model
+# # ridge_model.train_model()
+
+# # # Make predictions
+# # ridge_predictions = ridge_model.make_pred()
+
+# # ridge_model.run_model_cv()
+
+
+
+# #RANDOM FOREST
+# # Create an instance of RandomForestModel
+# #rf_model = RandomForestModel(n_estimators=100, max_depth=None, random_state=42)
 
 # # Set your training and testing data
-# linear_reg_model.set_data(X_train, y_train, X_test, y_test)
+# #rf_model.set_data(X_train, y_train, X_test, y_test)
 
-# # Train the linear regression model
-#linear_reg_model.simple_result
+# # Train the Random Forest model
+# #rf_model.train_model()
 
 # # Make predictions
-# predictions = linear_reg_model.make_pred()
+# #rf_predictions = rf_model.make_pred()
 
 # # Evaluate the model
-# mse, r_squared = linear_reg_model.model_evaluation()
+# #rf_mse, rf_r_squared = rf_model.model_evaluation()
 
-# # Optionally, you can perform k-fold cross-validation
-# cv_results = linear_reg_model.k_fold_cross_validation()
+# # Optionally, perform k-fold cross-validation
+# #rf_cv_results = rf_model.k_fold_cross_validation()
 
-# linear_reg_model.plot_actual_vs_predicted()
-
-
-
-
-
-#LASSO
-lasso_instance = LassoModel(alphas=lasso_alphas)
-
-# Set the data
-lasso_instance.set_data(X_train, y_train, X_test, y_test)
-
-
-lasso_instance.simple_result()
-
-#Run the Lasso model and perform cross-validation
-lasso_instance.run_model_cv()
-
-
-
-# #RIDGE
-# # Create an instance of RidgeModel
-# ridge_model = RidgeModel(alphas=ridge_alphas)  # You can customize the alphas as needed
-
-# # Set your training and testing data
-# ridge_model.set_data(X_train, y_train, X_test, y_test)
-
-# # Train the Ridge model
-# ridge_model.train_model()
-
-# # Make predictions
-# ridge_predictions = ridge_model.make_pred()
-
-# ridge_model.run_model_cv()
-
-
-
-#RANDOM FOREST
-# Create an instance of RandomForestModel
-#rf_model = RandomForestModel(n_estimators=100, max_depth=None, random_state=42)
-
-# Set your training and testing data
-#rf_model.set_data(X_train, y_train, X_test, y_test)
-
-# Train the Random Forest model
-#rf_model.train_model()
-
-# Make predictions
-#rf_predictions = rf_model.make_pred()
-
-# Evaluate the model
-#rf_mse, rf_r_squared = rf_model.model_evaluation()
-
-# Optionally, perform k-fold cross-validation
-#rf_cv_results = rf_model.k_fold_cross_validation()
-
-# Plot feature importances
-#feature_names = X_train.columns  
-#rf_model.plot_feature_importances(feature_names)
+# # Plot feature importances
+# #feature_names = X_train.columns  
+# #rf_model.plot_feature_importances(feature_names)
