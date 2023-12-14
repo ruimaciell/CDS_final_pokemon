@@ -49,9 +49,7 @@ The installation of the library provides all the tools necessary for this model 
 - Step 1 is to Load your datasets using the DataLoader module `from library_final.pokedex import DataLoader as ld`
 - Step 2 A brief exploratory data analysis to visualize the information using the EDA module `from library_final.pokedex import EDA as ea`
 - Step 3 Creation of new features, special treatment of others and removal of unuseful `from library_final.pokedex import DataLoader as ld`
-- Creation of new features, special treatment of others and removal of unuseful
-- Train and test split for training and prediction of the models.
-- Machine Learning models applied to the data.
+- Step 4 Machine Learning models applied to the data `from library_final.pokedex import ModelSelector as ml1`
 
 
 
