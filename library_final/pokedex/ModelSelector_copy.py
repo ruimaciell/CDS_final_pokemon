@@ -10,6 +10,7 @@ from sklearn.metrics import make_scorer, r2_score, mean_squared_error
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.linear_model import LassoCV, RidgeCV
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import KFold
 
 
 import warnings
@@ -37,96 +38,60 @@ class TrainTestDivider:
         return X_train, X_test, y_train, y_test, self.df_X, self.df_y
 
 
-class model:
-    def __init__(self, X_train, y_train, df_X, df_y):
-        self.X_train = X_train
-        self.y_train = y_train
-        self.df_X = df_X
-        self.df_y = df_y
+class Model:
+    def __init__(self, model):
+        self.model = model
 
+    def train_model(self, X_train, y_train):
+        self.model.fit(X_train, y_train)
 
-### 4. Models
-class LinearRegressionAnalyzer:
-    def __init__(self, X_train, y_train, df_X, df_y):
-        self.X_train = X_train
-        self.y_train = y_train
-        self.df_X = df_X
-        self.df_y = df_y
-        self.lin_model = LinearRegression()
+    def make_pred(self, X_test):
+        return self.model.predict(X_test)
 
-    def train_model(self):
-        self.lin_model.fit(self.X_train, self.y_train)
-
-    def make_predictions(self, X_test):
-        return self.lin_model.predict(X_test)
-
-    def evaluate_model(self, y_test, y_pred):
+    def model_evaluation(self, y_test, y_pred):
         mse = mean_squared_error(y_test, y_pred)
         r_sqr = r2_score(y_test, y_pred)
         print(f"Mean Squared Error: {mse} and R-squared: {r_sqr}")
+        print("   ")
 
-    def k_fold_cross_validation(self):
+
+class LinearRegressionAnalyzer(Model):
+    def __init__(self):
+        super().__init__(LinearRegression())  # Create an instance of LinearRegression
+
+    def run_model(self, X_train, y_train, X_test, y_test):
+        self.train_model(X_train, y_train)
+        y_pred = self.make_pred(X_test)
+        self.model_evaluation(y_test, y_pred)
+
+    def k_fold_cross_validation(self, df_X, df_y):
         lin_scoring = {'r_squared': make_scorer(r2_score), 'mse': make_scorer(mean_squared_error)}
-        cv_results = cross_validate(self.lin_model, self.df_X, self.df_y, cv=20, scoring=lin_scoring)
+        cv_results = cross_validate(self.model, df_X, df_y, cv=20, scoring=lin_scoring)
 
         for metric in lin_scoring:
+            print("   ")
             print(f"Cross-Validation {metric} Scores: {cv_results[f'test_{metric}']}")
             print(f"Mean Cross-Validation {metric}: {np.mean(cv_results[f'test_{metric}'])}\n")
     
-    def plot_actual_vs_predicted(self, y_test, y_pred):
-        plt.figure(figsize=(8, 6))
-        plt.scatter(y_test, y_pred, alpha=0.7)
-        sns.regplot(x=y_test, y=y_pred, scatter=False, color='red', label='Best Fitted Line')
-        plt.title('Actual vs. Predicted Values')
-        plt.xlabel('Actual Values')
-        plt.ylabel('Predicted Values')
-        plt.show()
-
-    def plot_residual_distribution(self, y_test, y_pred):
-        residuals = y_test - y_pred
-        plt.figure(figsize=(8, 6))
-        sns.histplot(residuals, kde=True)
-        plt.title('Distribution of Residuals')
-        plt.xlabel('Residuals')
-        plt.ylabel('Frequency')
-        plt.show()
 
 
-class LassoOptimizer:
-    def __init__(self, X_train, y_train, X_test, y_test):
-        self.X_train = X_train
-        self.y_train = y_train
-        self.X_test = X_test
-        self.y_test = y_test
-        self.best_alpha = None
-        self.min_mse = float('inf')
+class LassoModel(Model):
+    def __init__(self, alphas=None):
+        if alphas is None:
+            alphas = [0.1, 0.5, 1.0]
+        self.alphas = alphas
+        super().__init__(Lasso(alpha=self.alphas[0]))  # Create an instance of Lasso
 
-    def optimize_alpha(self, alphas):
-        for alpha in alphas:
-            lasso = Lasso(alpha=alpha, tol=1e-2)
-            lasso.fit(self.X_train, self.y_train)
-            y_pred_lasso = lasso.predict(self.X_test)
-            mse_lasso = mean_squared_error(self.y_test, y_pred_lasso)
+    def tune_alpha(self, df_X, df_y, n_splits=5):
+        kf = KFold(n_splits=n_splits)
+        lasso_cv = LassoCV(alphas=self.alphas, cv=kf)
+        lasso_cv.fit(df_X, df_y)
+        self.model.alpha = lasso_cv.alpha_
+        print(f'Optimal alpha after tuning: {self.model.alpha}')
 
-            if mse_lasso < self.min_mse:
-                self.min_mse = mse_lasso
-                self.best_alpha = alpha
-
-        print(f'Optimal alpha for Lasso without CV: {self.best_alpha} and its average MSE: {self.min_mse}')
-
-    def optimize_alpha_cv(self, alphas):
-        scaler = StandardScaler()
-        X_train_scaled = scaler.fit_transform(self.X_train)
-        X_test_scaled = scaler.transform(self.X_test)
-
-        lasso_cv = LassoCV(alphas=alphas, tol=1e-2, cv=20)
-        lasso_cv.fit(X_train_scaled, self.y_train)
-
-        best_alpha_lasso_cv = lasso_cv.alpha_
-        y_pred_lasso_cv = lasso_cv.predict(X_test_scaled)
-        mse_lasso_cv = mean_squared_error(self.y_test, y_pred_lasso_cv)
-
-        print(f'Optimal alpha for Lasso with CV: {best_alpha_lasso_cv} and its MSE: {mse_lasso_cv}')
+    def run_model_cv(self, df_X, df_y, n_splits=5):
+        self.tune_alpha(df_X, df_y, n_splits)
+        super().run_model_cv(df_X, df_y, n_splits)
 
 
 class RidgeOptimizer:

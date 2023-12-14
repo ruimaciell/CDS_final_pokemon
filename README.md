@@ -15,9 +15,17 @@
 
 ## Introduction
 
-1. Team Overview - Outlining the presentation content each team member will cover.
-2. Context - Providing an overview of the subject matter and the dataset utilized.
-3. Onboarding - Installing the library #pip install -e .  
+1. Intro to the data and the project
+    - Library Structure
+    - Installation and onboarding
+    - Team Overview - Outlining the presentation content each team member will cover.
+2. Review pipeline stages: Explain design and logic, scaling opportunities and results.
+    - DataLoader - Mikel
+    - *Bonus* EDA - RUI
+    - Preprocess and Feature Engineering - RUI
+    - Model - Luis
+3.  Tests
+4. Observations and recommendations
   
 ## Library Arquitecture  
 <pre>
