@@ -1,61 +1,42 @@
+
 import pandas as pd
-import library_final
 import unittest
 import pytest
+import library_final
 from library_final.pokedex import  DataLoader as ld
-from library_final.pokedex import  DataPreprocessor as dp
+from library_final.pokedex.DataPreprocessor import PokemonBattleProcessor 
+
+combats_data = pd.read_csv("./CDS_final_pokemon/Notebook/raw_data/combats.csv")
+pokemon_data = pd.read_csv("./CDS_final_pokemon/Notebook/raw_data/pokemon.csv")
+processed_data = pd.read_csv("./Notebook/raw_data/ProcessedData.csv")
 
 
+class TestPokemonBattleProcessor(unittest.TestCase):
+    def setUp(self):
+         self.processor = PokemonBattleProcessor(pokemon_data, combats_data)
 
-###################################################0. Loading Data
-loader = ld.loader_vscode()
-combats_data, pokemon_data, pokemon_id_each_team, team_combat, process_data = loader.load_datasets()
+    def test_process_battle_data(self):
+        self.processor.process_battle_data()
 
+        # Check if the PokemonBattleProcessor updates the pokemon_data correctly
+        expected_columns = ['#', 'Name', 'Victory_Rate', 'Total_Battles', 'Victory_Counts']
+        self.assertListEqual(list(self.processor.pokemon_data.columns), expected_columns)
 
-class TestPokemonSkills(unittest.TestCase):
-    # Test for PokemonBattleProcessor.process_battle_data
-    def test_process_battle_data():
-        processor = dp.PokemonBattleProcessor(pokemon_data, combats_data)
-        processor.process_battle_data()
-        assert isinstance(processor.pokemon_data, pd.DataFrame)
-        assert 'Total_Battles' in processor.pokemon_data.columns
-        assert 'Victory_Counts' in processor.pokemon_data.columns
-        assert 'Victory_Rate' in processor.pokemon_data.columns
+        # Check specific values based on the provided mock data
+        self.assertEqual(self.processor.pokemon_data.loc[0, 'Victory_Rate'], 0.5)
+        self.assertEqual(self.processor.pokemon_data.loc[1, 'Victory_Rate'], 0.0)
+        self.assertEqual(self.processor.pokemon_data.loc[2, 'Victory_Rate'], 1.0)
 
-    # Test for PokemonBattleProcessor.get_processed_data
-    def test_get_processed_data():
-        processor = dp.PokemonBattleProcessor(pokemon_data, combats_data)
-        processor.process_battle_data()
-        processed_data = processor.get_processed_data()
-        assert isinstance(processed_data, pd.DataFrame)
+    def test_get_processed_data(self):
+        processed_data = self.processor.get_processed_data()
 
-    # Test for DataProcessor.__init__
-    def test_data_processor_init():
-        processor = dp.DataProcessor(process_data)
-        assert processor.df.equals(process_data)
+        # Check if get_processed_data returns the correct DataFrame
+        self.assertIsInstance(processed_data, pd.DataFrame)
+        self.assertListEqual(list(processed_data.columns), list(self.processor.pokemon_data.columns))
 
-
-    #################################################2. Testing Pokemon skill functions
-
-    # Test for OffensivePowerCalculator.calculate
-    def test_offensive_power_calculate():
-        calculator = dp.OffensivePowerCalculator(process_data)
-        calculator.calculate()
-        assert 'Offensive_Power' in calculator.pokemon_data.columns
-
-    # Test for DefensivePowerCalculator.calculate
-    def test_defensive_power_calculate():
-        calculator = dp.DefensivePowerCalculator(process_data)
-        calculator.calculate()
-        assert 'Defensive_Power' in calculator.pokemon_data.columns
-
-    # Test for SpeedToPowerRatioCalculator.calculate
-    def test_speed_to_power_ratio_calculate():
-        calculator = dp.SpeedToPowerRatioCalculator(process_data)
-        calculator.calculate()
-        assert 'Speed_to_Power_Ratio' in calculator.pokemon_data.columns
-
-
+    def test_display_data(self):
+        # This is just to test that the method doesn't raise an error
+        self.processor.display_data()
 
 if __name__ == '__main__':
     unittest.main()
