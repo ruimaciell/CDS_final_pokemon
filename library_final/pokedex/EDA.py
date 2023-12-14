@@ -1,3 +1,9 @@
+import pandas as pd
+import matplotlib as plt
+import seaborn as sns
+import numpy as np
+import statistics
+
 
 class DataProcessor:
     def __init__(self, df):
@@ -37,7 +43,7 @@ class MissingDataVisualizer(DataProcessor):
 
             missing_percentages_df['Column Name'] = missing_percentages_df['Column Name'].astype(str)
 
-            plt.figure(figsize=(20, 9))
+            plt.figure(figsize=(10, 9))
             plt.bar(missing_percentages_df['Column Name'], missing_percentages_df['Percentage Missing'], color='skyblue')
             plt.xlabel('Column Name')
             plt.ylabel('Percentage Missing')
