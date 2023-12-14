@@ -14,9 +14,8 @@
 ## Table of Contents
 
 1. **Introduction**
-    - [Project Overview](#Project-overview)
-    - [What pokemon should I choose first?](#What-pokemon-should-I-choose-first?)
-    - [Team Overview](#team-overview)
+    - [Project Overview](#roject-overview)
+    - [Installation & Onboarding](#nstallation-&-onboarding)
 
 2. **Library Architecture**
 
@@ -48,8 +47,9 @@ Embark on this Pokemon journey with us as we unravel the magic of battles and pr
 # Installation and Onboarding
 
 The installation of the library provides all the tools necessary for this model to run properly. Different functions, we decided to use classes for more clarity and interpretability, come into play in the model process at different stages. 
-- Loading of data
-- Merging of datasets and pre processing of the variables
+- First step is to Install the Library in your Local machine using `pip install -e .`
+- Automate the loading of your dataset using the DataLoader module, which offers different functions that adapts to different working needs.
+- Run your first exploratory data analysis using the EDA.py module
 - A brief exploratory data analysis to visualize the information
 - Creation of new features, special treatment of others and removal of unuseful
 - Train and test split for training and prediction of the models.
@@ -65,45 +65,47 @@ In our system, a parent class acts as the overarching container for all models, 
 
 To introduce a new model, one only needs to create a new child class. This new class generates an instance of the model, handles the fitting process, and predicts the target variable. By referring to the methods established in the parent class, this approach eliminates the need to build an entirely new model from scratch, ensuring a scalable and robust foundation for future model expansions.
 
-#### What pokemon should I choose first?
-
-
 
 
 ## Library Arquitecture  
 <pre>
-├── library_final
-│   ├── __init__.py
-│   ├── __pycache__
-│   │   └── __init__.cpython-312.pyc
-│   └── pokedex
-│       ├── TBDload_class.py
-│       ├── TBDmodel_class.py
-│       ├── TBDprepro_class.py
-│       ├── feature_class.py
-│       ├── model_implementation.py
-│       └── __init__.py
-|
 ├── Notebooks
-│   └── Main.ipynb
+│   ├── Main_pokemon.ipynb
+│   ├── Rui_presentation.ipynb
+│   ├── query_credentials.json
+│   └── raw_data
+│       ├── ProcessedData.csv
+│       ├── combats.csv
+│       ├── pokemon.csv
+│       ├── pokemon_id_each_team.csv
+│       └── team_combat.csv
+|
+├── README.md
 ├── Test
+│   │    
+│   ├── test_DataPreprocessor.py
+│   └── test_Feature.py
+|
 ├── images
 │   ├── charmander.gif
-│   └── pokemon.png   
-├── raw_data
-│   ├── ProcessedData.csv
-│   ├── combats.csv
-│   ├── pokemon.csv
-│   ├── pokemon_id_each_team.csv
-│   ├── team_combat.csv
-│   └── your_dataset.csv
+│   └── pokemon.png
+|
+├── library_final
+│   ├── __init__.py
+│   └── pokedex
+│       ├── DataLoader.py
+│       ├── DataPreprocessor.py
+│       ├── EDA.py
+│       ├── FeatureEng.py
+│       ├── ModelSelector.py
+│       ├── __init__.py
 |
 ├── requirements.txt
-├── README.md
 ├── setup.cfg
 ├── setup.py
-├── testing.py
-└── tree.txt 
-  
-6 directories, 23 files
+└── tree.txt
+
+12 directories, 47 files
 </pre>
+
+

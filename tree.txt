@@ -41,3 +41,64 @@
 └── tree.txt
 
 10 directories, 31 files
+.
+├── Notebooks
+│   ├── Main_pokemon-Copy1.ipynb
+│   ├── Main_pokemon.ipynb
+│   ├── Rui_presentation.ipynb
+│   ├── query_credentials.json
+│   └── raw_data
+│       ├── ProcessedData.csv
+│       ├── __pycache__
+│       │   └── funct_test.cpython-312.pyc
+│       ├── combats.csv
+│       ├── pokemon.csv
+│       ├── pokemon_id_each_team.csv
+│       └── team_combat.csv
+├── README.md
+├── Test
+│   ├── __pycache__
+│   │   ├── test_DataPreprocessor.cpython-312-pytest-7.4.3.pyc
+│   │   └── test_FeatureEng.cpython-312-pytest-7.4.3.pyc
+│   ├── test_DataPreprocessor.py
+│   └── unitests_test.py
+├── example read me.txt
+├── images
+│   ├── charmander.gif
+│   └── pokemon.png
+├── library_final
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── __init__.cpython-312.pyc
+│   └── pokedex
+│       ├── DataLoader.py
+│       ├── DataPreprocessor.py
+│       ├── EDA.py
+│       ├── FeatureEng.py
+│       ├── ModelSelector.py
+│       ├── __init__.py
+│       └── __pycache__
+│           ├── DataLoader.cpython-312.pyc
+│           ├── DataLoader_class.cpython-312.pyc
+│           ├── DataPreprocessor.cpython-312.pyc
+│           ├── EDA.cpython-312.pyc
+│           ├── FeatureEng.cpython-312.pyc
+│           ├── ModelSelector.cpython-312.pyc
+│           ├── ModelSelectorFoo.cpython-312.pyc
+│           ├── ModelSelector_copy.cpython-312.pyc
+│           ├── TBDload_class.cpython-312.pyc
+│           ├── __init__.cpython-312.pyc
+│           └── feature_class.cpython-312.pyc
+├── library_final.egg-info
+│   ├── PKG-INFO
+│   ├── SOURCES.txt
+│   ├── dependency_links.txt
+│   ├── requires.txt
+│   └── top_level.txt
+├── requirements.txt
+├── setup.cfg
+├── setup.py
+├── test_Rui_full_code.py
+└── tree.txt
+
+12 directories, 47 files
