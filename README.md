@@ -47,6 +47,24 @@ Embark on this Pokemon journey with us as we unravel the magic of battles and pr
 ---
 # Installation and Onboarding
 
+The installation of the library provides all the tools necessary for this model to run properly. Different functions, we decided to use classes for more clarity and interpretability, come into play in the model process at different stages. 
+- Loading of data
+- Merging of datasets and pre processing of the variables
+- A brief exploratory data analysis to visualize the information
+- Creation of new features, special treatment of others and removal of unuseful
+- Train and test split for training and prediction of the models.
+- Machine Learning models applied to the data.
+
+
+
+### Scalability and Robustness
+
+Our approach to designing the process prioritizes generalization and readability. The avoidance of hardcoding and the maintenance of a clear structure play pivotal roles in ensuring scalability. Leveraging parent and child classes serves a dual purpose: it minimizes code repetition and facilitates the integration of processes, making it more adaptable to future modifications. A notable instance of this design philosophy is evident in the implementation of machine learning models.
+
+In our system, a parent class acts as the overarching container for all models, efficiently calling methods specific to each model. Common processes such as fitting, training, predicting, and evaluating performance are shared across all models, contributing to a unified and streamlined structure. This design not only enhances code readability but also simplifies the incorporation of new machine learning models.
+
+To introduce a new model, one only needs to create a new child class. This new class generates an instance of the model, handles the fitting process, and predicts the target variable. By referring to the methods established in the parent class, this approach eliminates the need to build an entirely new model from scratch, ensuring a scalable and robust foundation for future model expansions.
+
 #### What pokemon should I choose first?
 
 

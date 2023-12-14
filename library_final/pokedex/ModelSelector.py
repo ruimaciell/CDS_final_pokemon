@@ -18,11 +18,11 @@ from sklearn.ensemble import RandomForestRegressor
 import warnings
 warnings.filterwarnings("ignore")
 
-# ### 2. Load Datasets. No need for function since we already have RUI's df.
-# pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/Notebooks/raw_data/ProcessedData.csv')
+### 2. Load Datasets. No need for function since we already have RUI's df.
+pokemon_data = pd.read_csv('/Users/luispoli/Documents/BSE/T1/Computing_DS/Practice/CDS_final_pokemon/Notebooks/raw_data/ProcessedData.csv')
 
-# columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
-# pokemon_data = pokemon_data[columns_to_use]
+columns_to_use = ['#', 'Name', 'Type 1', 'Type 2', 'HP', 'Attack','Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary','Victory_Rate', 'Total_Battles', 'Victory_Counts', 'Offensive_Power','Defensive_Power', 'Speed_to_Power_Ratio', 'Bug', 'Dark', 'Dragon','Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass','Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel','Water']
+pokemon_data = pokemon_data[columns_to_use]
 
 
 ### 3. Divide Data into subsets
@@ -66,7 +66,12 @@ class Model:
         r_sqr = r2_score(self.y_test, y_pred)
         print(f"Mean Squared Error: {mse} and R-squared: {r_sqr}")
         return mse, r_sqr
-    
+      
+    def simple_result(self):
+        self.train_model()
+        self.make_pred()
+        self.model_evaluation()
+
     def plot_actual_vs_predicted(self):
         plt.figure(figsize=(8, 6))
         plt.scatter(self.y_test, self.make_pred(), alpha=0.7)
@@ -75,11 +80,6 @@ class Model:
         plt.xlabel('Actual Values')
         plt.ylabel('Predicted Values')
         plt.show()
-    
-    def simple_result(self):
-        self.train_model()
-        self.make_pred()
-        self.model_evaluation()
 
     def k_fold_cross_validation(self, n_splits=5):
         if self.X_train is not None and self.y_train is not None:
@@ -195,11 +195,11 @@ class RandomForestModel(Model):
 
 
 # Assuming you have a dataframe named pokemon_data
-# divider = TrainTestDivider(pokemon_data)
-# X_train, X_test, y_train, y_test = divider.train_test()
+divider = TrainTestDivider(pokemon_data)
+X_train, X_test, y_train, y_test, df_X, df_y = divider.train_test()
 
 # # Creating a linspace for Lasso alphas
-# lasso_alphas = np.linspace(0.001, 1, num=30)
+lasso_alphas = np.linspace(0.001, 1, num=30)
 
 # Creating a linspace for Ridge alphas
 #ridge_alphas = np.linspace(0.01, 100, num=30)
@@ -232,16 +232,16 @@ class RandomForestModel(Model):
 
 
 #LASSO
-# lasso_instance = LassoModel(alphas=lasso_alphas)
+lasso_instance = LassoModel(alphas=lasso_alphas)
 
-# # Set the data
-# lasso_instance.set_data(X_train, y_train, X_test, y_test)
+# Set the data
+lasso_instance.set_data(X_train, y_train, X_test, y_test)
 
 
-# lasso_instance.simple_result()
+lasso_instance.simple_result()
 
-# Run the Lasso model and perform cross-validation
-#lasso_instance.run_model_cv()
+#Run the Lasso model and perform cross-validation
+lasso_instance.run_model_cv()
 
 
 
