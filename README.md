@@ -20,14 +20,12 @@
 2. **Library Architecture**
 
 3. **Pipeline Review**
-    - [DataLoader (Presented by Mikel)](#dataloader-presented-by-mikel)
-    - [*Bonus* Exploratory Data Analysis (Presented by Rui)](#bonus-exploratory-data-analysis-presented-by-rui)
-    - [Preprocess and Feature Engineering (Presented by Rui)](#preprocess-and-feature-engineering-presented-by-rui)
-    - [Model (Presented by Luis)](#model-presented-by-luis)
+    - [DataLoader](#dataloader)
+    - [*Bonus* Exploratory Data Analysis](#bonus-exploratory-data-analysis)
+    - [Preprocess and Feature Engineering](#preprocess-and-feature-engineering)
+    - [Model](#model)
 
 4. **Tests**
-
-5. **Observations and Recommendations**
 ---
 # Project Overview
 
@@ -47,10 +45,10 @@ Embark on this Pokemon journey with us as we unravel the magic of battles and pr
 # Installation and Onboarding
 
 The installation of the library provides all the tools necessary for this model to run properly. Different functions, we decided to use classes for more clarity and interpretability, come into play in the model process at different stages. 
-- First step is to Install the Library in your Local machine using `pip install -e .`
-- Automate the loading of your dataset using the DataLoader module, which offers different functions that adapts to different working needs.
-- Run your first exploratory data analysis using the EDA.py module
-- A brief exploratory data analysis to visualize the information
+- Step 0 is to Install the Library in your Local machine using `bash$ pip install -e .`
+- Step 1 is to Load your datasets using the DataLoader module `from library_final.pokedex import DataLoader as ld`
+- Step 2 A brief exploratory data analysis to visualize the information using the EDA module `from library_final.pokedex import EDA as ea`
+- Step 3 Creation of new features, special treatment of others and removal of unuseful `from library_final.pokedex import DataLoader as ld`
 - Creation of new features, special treatment of others and removal of unuseful
 - Train and test split for training and prediction of the models.
 - Machine Learning models applied to the data.
@@ -65,7 +63,7 @@ In our system, a parent class acts as the overarching container for all models, 
 
 To introduce a new model, one only needs to create a new child class. This new class generates an instance of the model, handles the fitting process, and predicts the target variable. By referring to the methods established in the parent class, this approach eliminates the need to build an entirely new model from scratch, ensuring a scalable and robust foundation for future model expansions.
 
-<img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg">
+<img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg" alt="image22">
 
 ## Library Arquitecture  
 <pre>
