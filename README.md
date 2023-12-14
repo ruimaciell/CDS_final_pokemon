@@ -53,7 +53,7 @@ The installation of the library provides all the tools necessary for this model 
 
 
 
-### Scalability and Robustness
+## Scalability and Robustness
 
 Our approach to designing the process prioritizes generalization and readability. The avoidance of hardcoding and the maintenance of a clear structure play pivotal roles in ensuring scalability. Leveraging parent and child classes serves a dual purpose: it minimizes code repetition and facilitates the integration of processes, making it more adaptable to future modifications. A notable instance of this design philosophy is evident in the implementation of machine learning models.
 
@@ -63,7 +63,7 @@ To introduce a new model, one only needs to create a new child class. This new c
 
 <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg" alt="image22">
 
-## Library Arquitecture  
+# Library Arquitecture  
 <pre>
 ├── Notebooks
 │   ├── Main_pokemon.ipynb
