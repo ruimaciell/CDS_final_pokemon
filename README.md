@@ -11,22 +11,43 @@
 </p>  
   
 ---
-## Index  
+## Table of Contents
 
-## Introduction
+1. **Introduction**
+    - [Overview of the Project](#overview-of-the-project)
+    - [Installation and Onboarding](#installation-and-onboarding)
+    - [Team Overview](#team-overview)
 
-1. Intro to the data and the project
-    - Library Structure
-    - Installation and onboarding
-    - Team Overview - Outlining the presentation content each team member will cover.
-2. Review pipeline stages: Explain design and logic, scaling opportunities and results.
-    - DataLoader - Mikel
-    - *Bonus* EDA - RUI
-    - Preprocess and Feature Engineering - RUI
-    - Model - Luis
-3.  Tests
-4. Observations and recommendations
-  
+2. **Library Architecture**
+
+3. **Pipeline Review**
+    - [DataLoader (Presented by Mikel)](#dataloader-presented-by-mikel)
+    - [*Bonus* Exploratory Data Analysis (Presented by Rui)](#bonus-exploratory-data-analysis-presented-by-rui)
+    - [Preprocess and Feature Engineering (Presented by Rui)](#preprocess-and-feature-engineering-presented-by-rui)
+    - [Model (Presented by Luis)](#model-presented-by-luis)
+
+4. **Tests**
+
+5. **Observations and Recommendations**
+---
+# Project Overview
+
+Welcome to our Pokemon-inspired project! We've delved into the world of Pokemon, celebrated as one of the most cherished TV shows of all time.
+
+## Objective
+
+Our goal is to build a predictive model estimating a Pokemon's probability of winning in combat. Using a dataset featuring historical battle outcomes, attributes, and skills, we're decoding the intricacies of Pokemon battles.
+
+## Dataset
+
+We've provided four CSV files, with a focus on `combat.csv` and `pokemon.csv`. These files drive our presentation. While we envisioned future enhancements using `team_combats` and `team_pokemon_id`, time constraints during exams prevented us from realizing this part. Apologies for any inconvenience!
+
+Embark on this Pokemon journey with us as we unravel the magic of battles and predictive modeling!
+
+
+
+
+
 ## Library Arquitecture  
 <pre>
 ├── library_final
