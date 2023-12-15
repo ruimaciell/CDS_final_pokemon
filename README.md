@@ -122,6 +122,8 @@ bash$ tree . >> tree.txt
 
 
 ## Pipeline Review
+We opted for an SQL approach in the Data Loader, where we initially store the data in a PostgreSQL database and later retrieve the datasets through a Python connection. This strategy proves to be highly efficient in terms of scalability. As the project expands, incorporating new datasets into the database and updating the Data Loader function with the relevant queries ensures a streamlined process.  
+Furthermore, recognizing the security implications of establishing connections to databases, we prioritized safeguarding sensitive information. To achieve this, we encoded the credentials by utilizing a JSON file.
 
 ### Pipeline: DataLoader
 <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/dataloader.png" alt="dataloader">
