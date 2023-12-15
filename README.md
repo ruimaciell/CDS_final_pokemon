@@ -46,12 +46,12 @@ Embark on this Pokemon journey with us as we unravel the magic of battles and pr
 
 The installation of the library provides all the tools necessary for this model to run properly. Different functions, we decided to use classes for more clarity and interpretability, come into play in the model process at different stages.  
 
-- Step 1 - Installing the Library in your Local machine using Terminal:
+#### Step 1 - Installing the Library in your Local machine using Terminal:
  ```bash$ pip install -e .```
->This will automatically run the requirement.txt file with all the packages needed to properly initiate the library.
+>This command will automatically install all the required packages listed in the `requirements.txt`, ensuring the library is set up correctly.
 
-- Step 2 - Importing the library and it's modules
-
+#### Step 2 - Importing the library and it's modules
+(Insert at the beginning of your Python/jupyter file)
 ```
 import library_final
 from library_final.pokedex import DataLoader as ld
@@ -59,8 +59,7 @@ from library_final.pokedex import EDA as ea
 from library_final.pokedex import DataPreprocessor as dp
 from library_final.pokedex import ModelSelector as ml1
 ```
-
->Running these modules systematically will give you the tools to develop the pipeline for your machine learning project
+>Executing these modules in a systematic manner will equip you with the essential tools to establish a robust pipeline for your machine learning project
 
 --- 
 ## Scalability and Robustness
@@ -74,6 +73,13 @@ To introduce a new model, one only needs to create a new child class. This new c
 <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg" alt="image22">
 
 # Library Arquitecture  
+In order to generate the library arquitecture we need to run the following code: 
+```
+bash$ homebrew install tree
+bash$ tree . >> tree.txt
+```
+>This command will generate the following `tree.txt`
+
 <pre>
 ├── Notebooks
 │   ├── Main_pokemon.ipynb
@@ -114,4 +120,8 @@ To introduce a new model, one only needs to create a new child class. This new c
 12 directories, 47 files
 </pre>
 
+
+## Pipeline Review
+
+### Pipeline: DataLoader
 
