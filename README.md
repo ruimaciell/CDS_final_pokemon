@@ -132,4 +132,4 @@ Furthermore, recognizing the security implications of establishing connections t
 [Main Pokemon Notebook](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/Notebooks/Main_pokemon.ipynb)
 
 ### Bonus Pipeline: EDA
-[Main Pokemon Notebook](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/Notebooks/Rui_presentation.ipynb)
+[Exploration Notebook](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/Notebooks/Rui_presentation.ipynb)
