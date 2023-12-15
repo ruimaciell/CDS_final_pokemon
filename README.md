@@ -127,3 +127,9 @@ Furthermore, recognizing the security implications of establishing connections t
 
 ### Pipeline: DataLoader
 <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/dataloader.png" alt="dataloader">
+  
+### Pipeline: Data Preprocessor, FeatureEng and ModelSelector
+[Main Pokemon Notebook](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/Notebooks/Main_pokemon.ipynb)
+
+### Bonus Pipeline: EDA
+[Main Pokemon Notebook](https://github.com/ruimaciell/CDS_final_pokemon/blob/main/Notebooks/Rui_presentation.ipynb)
