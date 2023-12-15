@@ -124,4 +124,4 @@ bash$ tree . >> tree.txt
 ## Pipeline Review
 
 ### Pipeline: DataLoader
-
+<img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/dataloader.jpeg" alt="dataloader">
