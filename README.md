@@ -72,7 +72,7 @@ To introduce a new model, one only needs to create a new child class. This new c
 
 <img src="https://github.com/ruimaciell/CDS_final_pokemon/blob/main/images/image22.jpeg" alt="image22">
 
-# Library Arquitecture  
+# Library Architecture  
 In order to generate the library structure we need to run the following code: 
 ```
 bash$ homebrew install tree
