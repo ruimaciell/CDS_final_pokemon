@@ -44,15 +44,24 @@ Embark on this Pokemon journey with us as we unravel the magic of battles and pr
 ---
 # Installation and Onboarding
 
-The installation of the library provides all the tools necessary for this model to run properly. Different functions, we decided to use classes for more clarity and interpretability, come into play in the model process at different stages. 
-- Step 0 is to Install the Library in your Local machine using `bash$ pip install -e .`
-- Step 1 is to Load your datasets using the DataLoader module `from library_final.pokedex import DataLoader as ld`
-- Step 2 A brief exploratory data analysis to visualize the information using the EDA module `from library_final.pokedex import EDA as ea`
-- Step 3 Creation of new features, special treatment of others and removal of unuseful `from library_final.pokedex import DataLoader as ld`
-- Step 4 Machine Learning models applied to the data `from library_final.pokedex import ModelSelector as ml1`
+The installation of the library provides all the tools necessary for this model to run properly. Different functions, we decided to use classes for more clarity and interpretability, come into play in the model process at different stages.  
+
+- Step 1 - Installing the Library in your Local machine using Terminal:
+ ```bash$ pip install -e .```
+>This will automatically run the requirement.txt file with all the packages needed to properly initiate the library.
+
+- Step 2 - Importing the library and it's modules
 
 
+```import library_final
+from library_final.pokedex import DataLoader as ld
+from library_final.pokedex import EDA as ea
+from library_final.pokedex import DataPreprocessor as dp
+from library_final.pokedex import ModelSelector as ml1```
 
+>Running these modules systematically will give you the tools to develop the pipeline for your machine learning project
+
+--- 
 ## Scalability and Robustness
 
 Our approach to designing the process prioritizes generalization and readability. The avoidance of hardcoding and the maintenance of a clear structure play pivotal roles in ensuring scalability. Leveraging parent and child classes serves a dual purpose: it minimizes code repetition and facilitates the integration of processes, making it more adaptable to future modifications. A notable instance of this design philosophy is evident in the implementation of machine learning models.
