@@ -52,12 +52,13 @@ The installation of the library provides all the tools necessary for this model 
 
 - Step 2 - Importing the library and it's modules
 
-
-```import library_final
+```
+import library_final
 from library_final.pokedex import DataLoader as ld
 from library_final.pokedex import EDA as ea
 from library_final.pokedex import DataPreprocessor as dp
-from library_final.pokedex import ModelSelector as ml1```
+from library_final.pokedex import ModelSelector as ml1
+```
 
 >Running these modules systematically will give you the tools to develop the pipeline for your machine learning project
 
